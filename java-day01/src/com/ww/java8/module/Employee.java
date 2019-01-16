@@ -1,5 +1,7 @@
 package com.ww.java8.module;
 
+import java.util.Objects;
+
 /**
  * @author WangWei
  * @Title: Employee
@@ -11,22 +13,31 @@ public class Employee {
 
     private String name;
 
-    private int age;
+    private Integer age;
 
-    private double salary;
+    private Double salary;
+
+    private Status status;
+
+    public enum Status{
+        FREE,
+        BUSY,
+        VOCATION;
+    }
 
     public Employee() {
     }
 
-    public Employee(int age, double salary) {
+    public Employee(Integer age, Double salary) {
         this.age = age;
         this.salary = salary;
     }
 
-    public Employee(String name, int age, double salary) {
+    public Employee(String name, Integer age, Double salary, Status status) {
         this.name = name;
         this.age = age;
         this.salary = salary;
+        this.status = status;
     }
 
     public String getName() {
@@ -37,20 +48,28 @@ public class Employee {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
-    public double getSalary() {
+    public Double getSalary() {
         return salary;
     }
 
-    public void setSalary(double salary) {
+    public void setSalary(Double salary) {
         this.salary = salary;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override
@@ -59,6 +78,7 @@ public class Employee {
                 "name='" + name + '\'' +
                 ", age=" + age +
                 ", salary=" + salary +
+                ", status=" + status +
                 '}';
     }
 
@@ -66,22 +86,16 @@ public class Employee {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Employee employee = (Employee) o;
-
-        if (age != employee.age) return false;
-        if (Double.compare(employee.salary, salary) != 0) return false;
-        return name != null ? name.equals(employee.name) : employee.name == null;
+        return Objects.equals(name, employee.name) &&
+                Objects.equals(age, employee.age) &&
+                Objects.equals(salary, employee.salary) &&
+                status == employee.status;
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = name != null ? name.hashCode() : 0;
-        result = 31 * result + age;
-        temp = Double.doubleToLongBits(salary);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        return result;
+
+        return Objects.hash(name, age, salary, status);
     }
 }

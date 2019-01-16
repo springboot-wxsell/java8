@@ -1,6 +1,5 @@
 package com.ww.java8;
 
-import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.ww.java8.interfaces.MyFunction2;
 import com.ww.java8.module.Employee;
 import org.junit.Test;
@@ -20,20 +19,20 @@ import java.util.List;
 public class TestLambda3 {
 
     List<Employee> employeeList = new ArrayList<>(Arrays.asList(
-            new Employee("张三", 18, 9999.99),
-            new Employee("赵四", 28, 7777.77),
-            new Employee("王五", 35, 8888.88),
-            new Employee("于六", 38, 6666.66)
+            new Employee("张三", 18, 9999.99, Employee.Status.FREE),
+            new Employee("赵四", 28, 7777.77, Employee.Status.BUSY),
+            new Employee("王五", 35, 8888.88, Employee.Status.VOCATION),
+            new Employee("于六", 38, 6666.66, Employee.Status.BUSY)
     ));
 
     @Test
     public void test1() {
         Collections.sort(employeeList, (e1, e2) -> {
-          if (e1.getAge() == e2.getAge()) {
-              return e1.getName().compareTo(e2.getName());
-          }else {
-              return -Integer.compare(e1.getAge(), e2.getAge());
-          }
+            if (e1.getAge() == e2.getAge()) {
+                return e1.getName().compareTo(e2.getName());
+            } else {
+                return -Integer.compare(e1.getAge(), e2.getAge());
+            }
         });
         employeeList.forEach(System.out::println);
     }

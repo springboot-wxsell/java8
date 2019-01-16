@@ -4,7 +4,6 @@ import com.ww.java8.interfaces.MyPredicate;
 import com.ww.java8.interfaces.impl.FilterEmployeeByAge;
 import com.ww.java8.interfaces.impl.FilterEmployeeBySalary;
 import com.ww.java8.module.Employee;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 import java.util.*;
@@ -38,10 +37,10 @@ public class TestLambda {
 
 
     List<Employee> employeeList = new ArrayList<>(Arrays.asList(
-            new Employee("张三", 18, 9999.99),
-            new Employee("赵四", 28, 7777.77),
-            new Employee("王五", 35, 8888.88),
-            new Employee("于六", 38, 6666.66)
+            new Employee("张三", 18, 9999.99, Employee.Status.FREE),
+            new Employee("赵四", 28, 7777.77, Employee.Status.BUSY),
+            new Employee("王五", 35, 8888.88, Employee.Status.VOCATION),
+            new Employee("于六", 38, 6666.66, Employee.Status.BUSY)
     ));
 
 
@@ -80,13 +79,13 @@ public class TestLambda {
     }
 
     public List<Employee> filterEmployees1(List<Employee> employeeList, MyPredicate<Employee> mp) {
-         List<Employee> employees = new ArrayList<>();
-         for(Employee employee : employeeList) {
-             if (mp.compare(employee)) {
-                 employees.add(employee);
-             }
-         }
-         return employees;
+        List<Employee> employees = new ArrayList<>();
+        for (Employee employee : employeeList) {
+            if (mp.compare(employee)) {
+                employees.add(employee);
+            }
+        }
+        return employees;
     }
 
     // 优化方式二: 匿名内部类
