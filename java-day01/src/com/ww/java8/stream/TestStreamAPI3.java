@@ -1,5 +1,6 @@
 package com.ww.java8.stream;
 
+import a.e.E;
 import com.ww.java8.module.Employee;
 import org.junit.Test;
 
@@ -22,6 +23,48 @@ public class TestStreamAPI3 {
             new Employee("于六", 38, 6666.66, Employee.Status.BUSY),
             new Employee("于六", 38, 6666.66, Employee.Status.BUSY)
     ));
+    @Test
+    public void test10() {
+        String str = employeeList.stream().map(Employee::getName).collect(Collectors.joining(","));
+        System.out.println(str);
+    }
+
+    @Test
+    public void test9(){
+        DoubleSummaryStatistics dss = employeeList.stream().collect(Collectors.summarizingDouble(Employee::getSalary));
+        System.out.println(dss.getAverage());
+    }
+
+    // 分区
+    @Test
+    public void test8() {
+        Map<Boolean, List<Employee>> map =  employeeList.stream().collect(Collectors.partitioningBy((e) -> e.getSalary() > 8000));
+        map.forEach((k, v) -> System.out.println(k + " : " + v));
+    }
+
+    // 多级分组
+    @Test
+    public void test7() {
+        Map<Employee.Status, Map<String, List<Employee>>> map = employeeList.stream().collect(Collectors.groupingBy(Employee::getStatus, Collectors.groupingBy((e) -> {
+            if (e.getAge() <= 35) {
+                return "青年";
+            } else if (e.getAge() <= 50) {
+                return "中年";
+            } else {
+                return "老年";
+            }
+        })));
+        map.forEach((k, v) -> System.out.println(k + " : " + v));
+
+    }
+
+
+    // 分组
+    @Test
+    public void test6(){
+        Map<Employee.Status, List<Employee>> group = employeeList.stream().collect(Collectors.groupingBy(Employee::getStatus));
+        group.forEach((k, v) -> System.out.println(k + " : " + v));
+    }
 
     /**
      *  收集：
@@ -40,6 +83,15 @@ public class TestStreamAPI3 {
         System.out.println("------------------------ ");
         // 总和
         employeeList.stream().collect(Collectors.summingDouble(Employee::getSalary));
+
+        // 最大值
+        Optional<Employee> max = employeeList.stream().collect(Collectors.maxBy((e1, e2) -> Double.compare(e1.getSalary(), e2.getSalary())));
+        System.out.println(max.get());
+
+        // 最小值(工资)
+        Optional<Double> min = employeeList.stream().map(Employee::getSalary).collect(Collectors.minBy(Double::compare));
+        System.out.println(min.get());
+
     }
     @Test
     public void test4() {
