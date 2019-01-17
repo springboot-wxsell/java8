@@ -1,14 +1,13 @@
 package com.ww.java8.exer;
 
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import a.f.S;
 import com.ww.java8.module.Trader;
 import com.ww.java8.module.Transaction;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TestTransaction {
 
