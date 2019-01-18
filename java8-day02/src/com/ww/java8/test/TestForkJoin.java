@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.OptionalLong;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 import java.util.stream.LongStream;
