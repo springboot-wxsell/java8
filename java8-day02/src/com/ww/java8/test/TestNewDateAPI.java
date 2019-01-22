@@ -3,8 +3,10 @@ package com.ww.java8.test;
 import org.junit.Test;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Set;
 
 /**
  * @author WangWei
@@ -14,6 +16,42 @@ import java.time.temporal.TemporalAdjusters;
  * @description:
  */
 public class TestNewDateAPI {
+
+    // ZoneDate  ZoneTime    ZoneDateTime
+
+    @Test
+    public void test9(){
+        LocalDateTime ldt = LocalDateTime.now(ZoneId.of("Europe/London"));
+        System.out.println(ldt);
+
+        LocalDateTime ldt2 = LocalDateTime.now(ZoneId.of("Asia/Shanghai"));
+        ZonedDateTime zdt = ldt2.atZone(ZoneId.of("Asia/Shanghai"));
+        System.out.println(zdt);
+    }
+
+    @Test
+    public void test8() {
+        Set<String> areas = ZoneId.getAvailableZoneIds();
+        areas.forEach(System.out::println);
+    }
+
+    // DateTimeFormatter: 格式化时间/日期
+    @Test
+    public void test7() {
+        DateTimeFormatter dtf = DateTimeFormatter.ISO_DATE;
+        LocalDateTime ldt = LocalDateTime.now();
+        String format = ldt.format(dtf);
+        System.out.println(format);
+
+        System.out.println("---------------------------------");
+        // 自定义格式
+        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String format1 = dtf2.format(ldt);
+        System.out.println(format1);
+
+        LocalDateTime newDate = ldt.parse(format1, dtf2 );
+        System.out.println(newDate);
+    }
 
     // TemporalAdjuester: 时间校正器
     @Test
@@ -25,6 +63,22 @@ public class TestNewDateAPI {
 
         LocalDateTime ldt3 = ldt2.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
         System.out.println(ldt3);
+
+        // 自定义: 下一个工作日
+        LocalDateTime with = ldt.with((l) -> {
+            LocalDateTime ldt4 = (LocalDateTime) l;
+
+            DayOfWeek dow = ldt.getDayOfWeek();
+
+            if (dow.equals(DayOfWeek.FRIDAY)) {
+                return ldt4.plusDays(3);
+            } else if (dow.equals(DayOfWeek.SATURDAY)) {
+                return ldt4.plusDays(2);
+            } else {
+                return ldt4.plusDays(1);
+            }
+        });
+        System.out.println(with);
     }
 
 
